@@ -7,7 +7,7 @@
 #include <QLabel> //подключает класс для работы с полем для показа какой-либо информации, добавляется при необходимости!
 #include <QFile> //подключает класс для работы с файлами, добавляется при необходимости!
 
-
+#include <QDebug>//подключает класс для работы с выводом результата в консоль, добавляется при необходимости!
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(createFile())); //для создания файла при необходимости
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(addText())); //для ввода текста в файл
+    connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(retrievetext())); //для вывода текста из файла
 }
 
 MainWindow::~MainWindow()
@@ -73,6 +74,8 @@ void MainWindow::addText(){
                         //работает только с латинским или только с кириллическим шрифтом
                         //Совместное использование может перекодировать все символы в файле или вообще оставить файл пустым
 
+          //4 способ
+        //qDebug() << b;//выдает результат как положено, но только в консоли
 
 
 
@@ -86,4 +89,26 @@ void MainWindow::addText(){
         file.open(QIODevice::WriteOnly);//создаем файл fortext.text, после второго нажатия кнопки вроде создался, но не понятно в каком месте
         /*/home/mishanyya/build-addinfoinfile-Desktop_Qt_5_14_2_GCC_64bit-Debug/fortext.text он создался в папке с исполняемым файлом!*/
         }
+}
+
+void MainWindow::retrievetext()
+{
+//блок получения информации из файла и вывода ее в поле
+//проверяем существует ли файл fortext.text, если существует покажем в элементе label_2 текст Файл существует, если нет, то Файл НЕ существует
+if(QFile::exists("fortext.txt"))
+{
+QFile file("fortext.txt");//создаем файл fortext.text, но он не создан
+file.open(QIODevice::QIODevice::ReadOnly);//открываем файл
+ui->textEdit->setText(file.readAll());//выводим все содержимое файла
+
+    file.close();//закрываем файл
+
+
+}
+else{
+ui->textEdit->setText("Файл НЕ существует");
+QFile file("fortext.txt");//создаем объект для работы с файлом fortext.txt
+file.open(QIODevice::WriteOnly);//создаем файл fortext.tet
+/*/home/mishanyya/build-addinfoinfile-Desktop_Qt_5_14_2_GCC_64bit-Debug/fortext.text он создался в папке с исполняемым файлом!*/
+}
 }

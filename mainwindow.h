@@ -21,6 +21,6 @@ private:
 private slots:
     void createFile();// это созданный нами слот для проверки существования файла fortext.text и его создания при необходимости после нажатия кнопки QPushButton
     void addText(); // это созданный нами слот для внесения текста из поля QLineEdit в какой-либо текстовый файл после нажатия кнопки QPushButton
-
+void retrievetext();//это созданный нами слот для вывода текста из фала после нажатия кнопки QPushButton
 };
 #endif // MAINWINDOW_H
