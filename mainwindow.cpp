@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(createFile())); //для создания файла при необходимости
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(addText())); //для ввода текста в файл
     connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(retrievetext())); //для вывода текста из файла
+    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(plusaddtext())); //для добавления текста в файл
+
 }
 
 MainWindow::~MainWindow()
@@ -63,7 +65,7 @@ void MainWindow::retrievetext()
 if(QFile::exists("fortext.txt"))
 {
 QFile file("fortext.txt");//создаем файл fortext.txt, но он не создан
-file.open(QIODevice::ReadOnly);//открываем файл
+file.open(QIODevice::ReadOnly);//открываем файл только для чтения
 ui->textEdit->setText(file.readAll());//выводим все содержимое файла
 file.close();//закрываем файл
 }
@@ -71,3 +73,22 @@ else{
 ui->textEdit->setText("Файл НЕ существует");
 }
 }
+
+void MainWindow::plusaddtext(){
+    //блок добавления текста в файл
+    //проверяем существует ли файл fortext.text, если существует покажем в элементе label_2 текст Файл существует, если нет, то Файл НЕ существует
+    if(QFile::exists("fortext.txt"))
+    {
+        QFile file("fortext.txt");//указываем файл fortext.txt
+
+        file.open(QFile::Append |QFile::Text);//открываем файл fortext.txt, для добавления текста в файл
+        /*/home/mishanyya/build-addinfoinfile-Desktop_Qt_5_14_2_GCC_64bit-Debug/fortext.text он создался в папке с исполняемым файлом!*/
+        //получаем содержимое поля QLineEdit
+        file.write(ui->lineEdit->text().toUtf8().data());   // записываем значение из lineEdit
+        file.close();//закрываем файл
+    }
+    else{
+    ui->textEdit->setText("Файл НЕ существует");
+    }
+}
+
